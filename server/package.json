@@ -4,6 +4,12 @@
   "description": "university project",
   "main": "index.js",
   "license": "MIT",
+  "scripts": {
+    "start": "yarn build && cross-env NODE_ENV=production node dist/index.js",
+    "dev": "cross-env NODE_ENV=development nodemon",
+    "build": "tsc",
+    "studio": "prisma studio"
+  },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "@types/cookie-parser": "^1.4.3",
