@@ -14,4 +14,39 @@ model User {
   id       String @id @default(uuid())
   username String
   password String
+
+  createdCorporations Corporation[] @relation("createdCorporations")
+}
+
+model Corporation {
+  id          String @id @default(uuid())
+  name        String
+  description String
+
+  creatorUser   User   @relation("createdCorporations", fields: [creatorUserId], references: [id])
+  creatorUserId String
+
+  branches Branch[]
+}
+
+model Branch {
+  id      String @id @default(uuid())
+  title   String
+  address String
+
+  corporation   Corporation @relation(fields: [corporationId], references: [id], onDelete: Cascade)
+  corporationId String
+
+  workers Worker[]
+}
+
+model Worker {
+  id          String @id @default(uuid())
+  name        String
+  surname     String
+  phoneNumber String
+  position    String
+
+  Branch   Branch @relation(fields: [branchId], references: [id], onDelete: Cascade)
+  branchId String
 }
