@@ -1,9 +1,8 @@
 import { prisma } from '../config/prisma';
 import { HttpException } from '../exceptions/httpException';
 
-const getWorkers = async (id: string) => {
+const getWorkers = async () => {
   const workers = await prisma.worker.findMany({
-    where: { branchId: id },
     select: {
       id: true,
       name: true,
@@ -13,9 +12,6 @@ const getWorkers = async (id: string) => {
     },
   });
 
-  if (!workers) {
-    throw new HttpException(404, 'Workers not found');
-  }
   return workers;
 };
 
@@ -27,6 +23,28 @@ const getWorker = async (id: string) => {
   }
 
   return worker;
+};
+
+//can probably change it back to /branches/:branchId/workers
+const getBranchWorkers = async (corporationId: string, branchId: string) => {
+  // const branchWorkers = await prisma.worker.findMany({
+  //   where: { branchId: id },
+  //   select: {
+  //     id: true,
+  //     name: true,
+  //     surname: true,
+  //     phoneNumber: true,
+  //     position: true,
+  //   },
+  // });
+
+  const branchWorkers = await prisma.$queryRaw`select w.*
+                                               from "Worker" w
+                                               join "Branch" b on b.id = ${branchId}
+                                               join "Corporation" c on c.id = ${corporationId}
+                                               where w."branchId" = b.id`;
+
+  return branchWorkers;
 };
 
 const createWorker = async (data: {
@@ -77,6 +95,7 @@ const deleteWorker = async (id: string) => {
 export const workerService = {
   getWorkers,
   getWorker,
+  getBranchWorkers,
   createWorker,
   updateWorker,
   deleteWorker,

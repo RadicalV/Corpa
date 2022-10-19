@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from 'express';
 
 const getBranches = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const branches = await branchService.getBranches(req.params.corporationId);
+    const branches = await branchService.getBranches();
     res.status(200).send(branches);
   } catch (error) {
     next(error);
@@ -12,9 +12,19 @@ const getBranches = async (req: Request, res: Response, next: NextFunction) => {
 
 const getBranch = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    console.log('hi');
     const branch = await branchService.getBranch(req.params.id);
     res.status(200).send(branch);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getCorporationBranches = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const corporationBranches = await branchService.getCorporationBranches(
+      req.params.corporationId
+    );
+    res.status(200).send(corporationBranches);
   } catch (error) {
     next(error);
   }
@@ -53,6 +63,7 @@ const deleteBranch = async (req: Request, res: Response, next: NextFunction) => 
 export const branchController = {
   getBranches,
   getBranch,
+  getCorporationBranches,
   createBranch,
   updateBranch,
   deleteBranch,

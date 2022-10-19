@@ -1,9 +1,8 @@
 import { prisma } from '../config/prisma';
 import { HttpException } from '../exceptions/httpException';
 
-const getBranches = async (id: string) => {
+const getBranches = async () => {
   const branches = await prisma.branch.findMany({
-    where: { corporationId: id },
     select: {
       id: true,
       title: true,
@@ -11,9 +10,6 @@ const getBranches = async (id: string) => {
     },
   });
 
-  if (!branches) {
-    throw new HttpException(404, 'Branches not found');
-  }
   return branches;
 };
 
@@ -25,6 +21,19 @@ const getBranch = async (id: string) => {
   }
 
   return branch;
+};
+
+const getCorporationBranches = async (id: string) => {
+  const corporationBranches = await prisma.branch.findMany({
+    where: { corporationId: id },
+    select: {
+      id: true,
+      title: true,
+      address: true,
+    },
+  });
+
+  return corporationBranches;
 };
 
 const createBranch = async (data: { title: string; address: string; corporationId: string }) => {
@@ -55,6 +64,7 @@ const deleteBranch = async (id: string) => {
 export const branchService = {
   getBranches,
   getBranch,
+  getCorporationBranches,
   createBranch,
   updateBranch,
   deleteBranch,

@@ -2,6 +2,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express from 'express';
 import { ORIGIN } from '../constants';
+import errorMiddleware from '../middlewares/errorMiddleware';
 import { branchRouter } from '../routes/branch.routes';
 import { corporationRouter } from '../routes/corporation.routes';
 import { workerRouter } from '../routes/worker.routes';
@@ -17,6 +18,8 @@ const expressConfig = () => {
   app.use('/api', corporationRouter);
   app.use('/api', branchRouter);
   app.use('/api', workerRouter);
+
+  app.use(errorMiddleware);
 
   return app;
 };

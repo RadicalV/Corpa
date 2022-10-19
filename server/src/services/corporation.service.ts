@@ -11,9 +11,6 @@ const getCorporations = async () => {
     },
   });
 
-  if (!corporations) {
-    throw new HttpException(404, 'Corporations not found');
-  }
   return corporations;
 };
 
