@@ -19,6 +19,10 @@ const expressConfig = () => {
   app.use('/api', branchRouter);
   app.use('/api', workerRouter);
 
+  app.use((req, res) => {
+    res.status(404).send("Sorry can't find that!");
+  });
+
   app.use(errorMiddleware);
 
   return app;
