@@ -31,6 +31,10 @@ const getBranch = async (corporationId: string, id: string) => {
 };
 
 const createBranch = async (data: { title: string; address: string }, corporationId: string) => {
+  if (!data.title || !data.address) {
+    throw new HttpException(400, 'Bad request!');
+  }
+
   const branch = await prisma.branch.create({
     data: { title: data.title, address: data.address, corporationId: corporationId },
   });

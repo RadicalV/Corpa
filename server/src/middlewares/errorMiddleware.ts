@@ -30,8 +30,6 @@ const errorMiddleware = (
       }
     }
 
-    console.log(error);
-
     res.status(status).json({ message });
   } catch (error) {
     next(error);

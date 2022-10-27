@@ -25,6 +25,10 @@ const getCorporation = async (id: string) => {
 };
 
 const createCorporation = async (data: { name: string; description: string; userId: string }) => {
+  if (!data.name || !data.description) {
+    throw new HttpException(400, 'Bad request!');
+  }
+
   const corporation = await prisma.corporation.create({
     data: { name: data.name, description: data.description, creatorUserId: data.userId },
   });

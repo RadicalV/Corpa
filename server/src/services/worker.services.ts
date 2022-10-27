@@ -48,6 +48,10 @@ const createWorker = async (
   corporationId: string,
   branchId: string
 ) => {
+  if (!data.name || data.surname || data.phoneNumber || data.position) {
+    throw new HttpException(400, 'Bad request!');
+  }
+
   const branch = await prisma.branch.findFirst({ where: { id: branchId, corporationId } });
 
   if (!branch) {
