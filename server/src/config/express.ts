@@ -20,7 +20,7 @@ const expressConfig = () => {
   app.use('/api', workerRouter);
 
   app.use((req, res) => {
-    res.status(404).send("Sorry can't find that!");
+    res.status(400).send({ message: 'Bad request!' });
   });
 
   app.use(errorMiddleware);

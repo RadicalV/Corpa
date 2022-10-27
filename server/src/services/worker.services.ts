@@ -1,8 +1,15 @@
 import { prisma } from '../config/prisma';
 import { HttpException } from '../exceptions/httpException';
 
-const getWorkers = async () => {
-  const workers = await prisma.worker.findMany({
+const getBranchWorkers = async (corporationId: string, branchId: string) => {
+  const branch = await prisma.branch.findFirst({ where: { id: branchId, corporationId } });
+
+  if (!branch) {
+    throw new HttpException(404, 'Not found!');
+  }
+
+  const branchWorkers = await prisma.worker.findMany({
+    where: { branchId: branchId },
     select: {
       id: true,
       name: true,
@@ -12,55 +19,48 @@ const getWorkers = async () => {
     },
   });
 
-  return workers;
+  return branchWorkers;
 };
 
-const getWorker = async (id: string) => {
-  const worker = await prisma.worker.findUnique({ where: { id } });
+const getWorker = async (corporationId: string, branchId: string, id: string) => {
+  const branch = await prisma.branch.findFirst({ where: { id: branchId, corporationId } });
+
+  if (!branch) {
+    throw new HttpException(404, 'Not found!');
+  }
+
+  const worker = await prisma.worker.findFirst({ where: { id, branchId } });
 
   if (!worker) {
-    throw new HttpException(404, 'Worker not found!');
+    throw new HttpException(404, 'Not found!');
   }
 
   return worker;
 };
 
-//can probably change it back to /branches/:branchId/workers
-const getBranchWorkers = async (corporationId: string, branchId: string) => {
-  // const branchWorkers = await prisma.worker.findMany({
-  //   where: { branchId: id },
-  //   select: {
-  //     id: true,
-  //     name: true,
-  //     surname: true,
-  //     phoneNumber: true,
-  //     position: true,
-  //   },
-  // });
+const createWorker = async (
+  data: {
+    name: string;
+    surname: string;
+    phoneNumber: string;
+    position: string;
+  },
+  corporationId: string,
+  branchId: string
+) => {
+  const branch = await prisma.branch.findFirst({ where: { id: branchId, corporationId } });
 
-  const branchWorkers = await prisma.$queryRaw`select w.*
-                                               from "Worker" w
-                                               join "Branch" b on b.id = ${branchId}
-                                               join "Corporation" c on c.id = ${corporationId}
-                                               where w."branchId" = b.id`;
+  if (!branch) {
+    throw new HttpException(404, 'Not found!');
+  }
 
-  return branchWorkers;
-};
-
-const createWorker = async (data: {
-  name: string;
-  surname: string;
-  phoneNumber: string;
-  position: string;
-  branchId: string;
-}) => {
   const worker = await prisma.worker.create({
     data: {
       name: data.name,
       surname: data.surname,
       phoneNumber: data.phoneNumber,
       position: data.position,
-      branchId: data.branchId,
+      branchId: branchId,
     },
   });
 
@@ -69,8 +69,18 @@ const createWorker = async (data: {
 
 const updateWorker = async (
   data: { name: string; surname: string; phoneNumber: string; position: string },
+  corporationId: string,
+  branchId: string,
   id: string
 ) => {
+  const branch = await prisma.branch.findFirst({ where: { id: branchId, corporationId } });
+
+  const workerTemp = await prisma.worker.findFirst({ where: { id, branchId } });
+
+  if (!branch || !workerTemp) {
+    throw new HttpException(404, 'Not found!');
+  }
+
   const worker = await prisma.worker.update({
     where: { id: id },
     data: {
@@ -84,7 +94,15 @@ const updateWorker = async (
   return worker;
 };
 
-const deleteWorker = async (id: string) => {
+const deleteWorker = async (corporationId: string, branchId: string, id: string) => {
+  const branch = await prisma.branch.findFirst({ where: { id: branchId, corporationId } });
+
+  const workerTemp = await prisma.worker.findFirst({ where: { id, branchId } });
+
+  if (!branch || !workerTemp) {
+    throw new HttpException(404, 'Not found!');
+  }
+
   const worker = await prisma.worker.delete({
     where: { id: id },
   });
@@ -93,9 +111,8 @@ const deleteWorker = async (id: string) => {
 };
 
 export const workerService = {
-  getWorkers,
-  getWorker,
   getBranchWorkers,
+  getWorker,
   createWorker,
   updateWorker,
   deleteWorker,

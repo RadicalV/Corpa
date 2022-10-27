@@ -22,6 +22,10 @@ const getCorporation = async (req: Request, res: Response, next: NextFunction) =
 const createCorporation = async (req: Request, res: Response, next: NextFunction) => {
   try {
     //const userId = req.tokenData;
+    if (Object.keys(req.body).length === 0) {
+      res.status(400).send({ message: 'Bad request!' });
+    }
+
     const corporation = await corporationService.createCorporation(req.body);
     res.status(200).send(corporation);
   } catch (error) {
@@ -32,6 +36,10 @@ const createCorporation = async (req: Request, res: Response, next: NextFunction
 const updateCorporation = async (req: Request, res: Response, next: NextFunction) => {
   try {
     // const userId = req.tokenData;
+    if (Object.keys(req.body).length === 0) {
+      res.status(400).send({ message: 'Bad request!' });
+    }
+
     const corporation = await corporationService.updateCorporation(req.body, req.params.id);
     res.status(200).send(corporation);
   } catch (error) {

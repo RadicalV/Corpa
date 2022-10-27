@@ -1,24 +1,6 @@
 import { branchService } from '../services/branch.service';
 import { NextFunction, Request, Response } from 'express';
 
-const getBranches = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const branches = await branchService.getBranches();
-    res.status(200).send(branches);
-  } catch (error) {
-    next(error);
-  }
-};
-
-const getBranch = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const branch = await branchService.getBranch(req.params.id);
-    res.status(200).send(branch);
-  } catch (error) {
-    next(error);
-  }
-};
-
 const getCorporationBranches = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const corporationBranches = await branchService.getCorporationBranches(
@@ -30,11 +12,24 @@ const getCorporationBranches = async (req: Request, res: Response, next: NextFun
   }
 };
 
+const getBranch = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const branch = await branchService.getBranch(req.params.corporationId, req.params.id);
+    res.status(200).send(branch);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const createBranch = async (req: Request, res: Response, next: NextFunction) => {
   try {
     //const userId = req.tokenData;
-    const branch = await branchService.createBranch(req.body);
-    res.status(200).send(branch);
+    if (Object.keys(req.body).length === 0) {
+      res.status(400).send({ message: 'Bad request!' });
+    }
+
+    const branch = await branchService.createBranch(req.body, req.params.corporationId);
+    res.status(201).send(branch);
   } catch (error) {
     next(error);
   }
@@ -43,7 +38,16 @@ const createBranch = async (req: Request, res: Response, next: NextFunction) => 
 const updateBranch = async (req: Request, res: Response, next: NextFunction) => {
   try {
     // const userId = req.tokenData;
-    const branch = await branchService.updateBranch(req.body, req.params.id);
+
+    if (Object.keys(req.body).length === 0) {
+      res.status(400).send({ message: 'Bad request!' });
+    }
+
+    const branch = await branchService.updateBranch(
+      req.body,
+      req.params.corporationId,
+      req.params.id
+    );
     res.status(200).send(branch);
   } catch (error) {
     next(error);
@@ -53,7 +57,7 @@ const updateBranch = async (req: Request, res: Response, next: NextFunction) => 
 const deleteBranch = async (req: Request, res: Response, next: NextFunction) => {
   try {
     // const userId = req.tokenData;
-    const branch = await branchService.deleteBranch(req.params.id);
+    const branch = await branchService.deleteBranch(req.params.corporationId, req.params.id);
     res.status(200).send(branch);
   } catch (error) {
     next(error);
@@ -61,9 +65,8 @@ const deleteBranch = async (req: Request, res: Response, next: NextFunction) => 
 };
 
 export const branchController = {
-  getBranches,
-  getBranch,
   getCorporationBranches,
+  getBranch,
   createBranch,
   updateBranch,
   deleteBranch,

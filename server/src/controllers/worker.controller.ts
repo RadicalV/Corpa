@@ -1,24 +1,6 @@
 import { workerService } from '../services/worker.services';
 import { NextFunction, Request, Response } from 'express';
 
-const getWorkers = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const workers = await workerService.getWorkers();
-    res.status(200).send(workers);
-  } catch (error) {
-    next(error);
-  }
-};
-
-const getWorker = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const worker = await workerService.getWorker(req.params.id);
-    res.status(200).send(worker);
-  } catch (error) {
-    next(error);
-  }
-};
-
 const getBranchWorkers = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const branchWorkers = await workerService.getBranchWorkers(
@@ -31,10 +13,31 @@ const getBranchWorkers = async (req: Request, res: Response, next: NextFunction)
   }
 };
 
+const getWorker = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const worker = await workerService.getWorker(
+      req.params.corporationId,
+      req.params.branchId,
+      req.params.id
+    );
+    res.status(200).send(worker);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const createWorker = async (req: Request, res: Response, next: NextFunction) => {
   try {
     //const userId = req.tokenData;
-    const worker = await workerService.createWorker(req.body);
+    if (Object.keys(req.body).length === 0) {
+      res.status(400).send({ message: 'Bad request!' });
+    }
+
+    const worker = await workerService.createWorker(
+      req.body,
+      req.params.corporationId,
+      req.params.branchId
+    );
     res.status(200).send(worker);
   } catch (error) {
     next(error);
@@ -44,7 +47,16 @@ const createWorker = async (req: Request, res: Response, next: NextFunction) => 
 const updateWorker = async (req: Request, res: Response, next: NextFunction) => {
   try {
     // const userId = req.tokenData;
-    const worker = await workerService.updateWorker(req.body, req.params.id);
+    if (Object.keys(req.body).length === 0) {
+      res.status(400).send({ message: 'Bad request!' });
+    }
+
+    const worker = await workerService.updateWorker(
+      req.body,
+      req.params.corporationId,
+      req.params.branchId,
+      req.params.id
+    );
     res.status(200).send(worker);
   } catch (error) {
     next(error);
@@ -54,7 +66,11 @@ const updateWorker = async (req: Request, res: Response, next: NextFunction) => 
 const deleteWorker = async (req: Request, res: Response, next: NextFunction) => {
   try {
     // const userId = req.tokenData;
-    const worker = await workerService.deleteWorker(req.params.id);
+    const worker = await workerService.deleteWorker(
+      req.params.corporationId,
+      req.params.branchId,
+      req.params.id
+    );
     res.status(200).send(worker);
   } catch (error) {
     next(error);
@@ -62,9 +78,8 @@ const deleteWorker = async (req: Request, res: Response, next: NextFunction) => 
 };
 
 export const workerController = {
-  getWorkers,
-  getWorker,
   getBranchWorkers,
+  getWorker,
   createWorker,
   updateWorker,
   deleteWorker,
