@@ -3,6 +3,7 @@ import cors from 'cors';
 import express from 'express';
 import { ORIGIN } from '../constants';
 import errorMiddleware from '../middlewares/errorMiddleware';
+import { authRouter } from '../routes/auth.routes';
 import { branchRouter } from '../routes/branch.routes';
 import { corporationRouter } from '../routes/corporation.routes';
 import { workerRouter } from '../routes/worker.routes';
@@ -15,6 +16,7 @@ const expressConfig = () => {
   app.use(express.urlencoded({ extended: true }));
   app.use(cookieParser());
 
+  app.use('/api', authRouter);
   app.use('/api', corporationRouter);
   app.use('/api', branchRouter);
   app.use('/api', workerRouter);

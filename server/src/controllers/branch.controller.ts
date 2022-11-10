@@ -23,12 +23,12 @@ const getBranch = async (req: Request, res: Response, next: NextFunction) => {
 
 const createBranch = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    //const userId = req.tokenData;
     if (Object.keys(req.body).length === 0) {
       res.status(400).send({ message: 'Bad request!' });
     }
 
-    const branch = await branchService.createBranch(req.body, req.params.corporationId);
+    const userId = req.tokenData.id;
+    const branch = await branchService.createBranch(req.body, req.params.corporationId, userId);
     res.status(201).send(branch);
   } catch (error) {
     next(error);
@@ -37,16 +37,17 @@ const createBranch = async (req: Request, res: Response, next: NextFunction) => 
 
 const updateBranch = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    // const userId = req.tokenData;
-
     if (Object.keys(req.body).length === 0) {
       res.status(400).send({ message: 'Bad request!' });
     }
 
+    const userId = req.tokenData.id;
+
     const branch = await branchService.updateBranch(
       req.body,
       req.params.corporationId,
-      req.params.id
+      req.params.id,
+      userId
     );
     res.status(200).send(branch);
   } catch (error) {
@@ -56,8 +57,12 @@ const updateBranch = async (req: Request, res: Response, next: NextFunction) => 
 
 const deleteBranch = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    // const userId = req.tokenData;
-    const branch = await branchService.deleteBranch(req.params.corporationId, req.params.id);
+    const userId = req.tokenData.id;
+    const branch = await branchService.deleteBranch(
+      req.params.corporationId,
+      req.params.id,
+      userId
+    );
     res.status(200).send(branch);
   } catch (error) {
     next(error);

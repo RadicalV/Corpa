@@ -24,19 +24,29 @@ const getCorporation = async (id: string) => {
   return corporation;
 };
 
-const createCorporation = async (data: { name: string; description: string; userId: string }) => {
+const createCorporation = async (data: { name: string; description: string }, id: string) => {
   if (!data.name || !data.description) {
     throw new HttpException(400, 'Bad request!');
   }
 
   const corporation = await prisma.corporation.create({
-    data: { name: data.name, description: data.description, creatorUserId: data.userId },
+    data: { name: data.name, description: data.description, creatorUserId: id },
   });
 
   return corporation;
 };
 
-const updateCorporation = async (data: { name: string; description: string }, id: string) => {
+const updateCorporation = async (
+  data: { name: string; description: string },
+  id: string,
+  userId: string
+) => {
+  const userCorporation = await prisma.corporation.findUnique({ where: { id: id } });
+
+  if (!userCorporation) throw new HttpException(404, 'Not found');
+
+  if (userCorporation.creatorUserId !== userId) throw new HttpException(401, 'Unauthorized');
+
   const corporation = await prisma.corporation.update({
     where: { id: id },
     data: { name: data.name, description: data.description },
@@ -45,7 +55,13 @@ const updateCorporation = async (data: { name: string; description: string }, id
   return corporation;
 };
 
-const deleteCorporation = async (id: string) => {
+const deleteCorporation = async (id: string, userId: string) => {
+  const userCorporation = await prisma.corporation.findUnique({ where: { id: id } });
+
+  if (!userCorporation) throw new HttpException(404, 'Not found');
+
+  if (userCorporation.creatorUserId !== userId) throw new HttpException(401, 'Unauthorized');
+
   const corporation = await prisma.corporation.delete({
     where: { id: id },
   });

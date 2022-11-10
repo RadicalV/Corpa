@@ -30,10 +30,20 @@ const getBranch = async (corporationId: string, id: string) => {
   return branch;
 };
 
-const createBranch = async (data: { title: string; address: string }, corporationId: string) => {
+const createBranch = async (
+  data: { title: string; address: string },
+  corporationId: string,
+  userId: string
+) => {
   if (!data.title || !data.address) {
     throw new HttpException(400, 'Bad request!');
   }
+
+  const corporation = await prisma.corporation.findUnique({ where: { id: corporationId } });
+
+  if (!corporation) throw new HttpException(404, 'Not found');
+
+  if (corporation.creatorUserId !== userId) throw new HttpException(401, 'Unauthorized');
 
   const branch = await prisma.branch.create({
     data: { title: data.title, address: data.address, corporationId: corporationId },
@@ -45,13 +55,18 @@ const createBranch = async (data: { title: string; address: string }, corporatio
 const updateBranch = async (
   data: { title: string; address: string },
   corporationId: string,
-  id: string
+  id: string,
+  userId: string
 ) => {
+  const corporation = await prisma.corporation.findUnique({ where: { id: corporationId } });
+
   const tempBranch = await prisma.branch.findFirst({ where: { id, corporationId } });
 
-  if (!tempBranch) {
+  if (!tempBranch || !corporation) {
     throw new HttpException(404, 'Not found!');
   }
+
+  if (corporation.creatorUserId !== userId) throw new HttpException(401, 'Unauthorized');
 
   const branch = await prisma.branch.update({
     where: { id: id },
@@ -61,12 +76,15 @@ const updateBranch = async (
   return branch;
 };
 
-const deleteBranch = async (corporationId: string, id: string) => {
+const deleteBranch = async (corporationId: string, id: string, userId: string) => {
+  const corporation = await prisma.corporation.findUnique({ where: { id: corporationId } });
   const tempBranch = await prisma.branch.findFirst({ where: { id, corporationId } });
 
-  if (!tempBranch) {
+  if (!tempBranch || !corporation) {
     throw new HttpException(404, 'Not found!');
   }
+
+  if (corporation.creatorUserId !== userId) throw new HttpException(401, 'Unauthorized');
 
   const branch = await prisma.branch.delete({
     where: { id: id },

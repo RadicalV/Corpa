@@ -28,15 +28,17 @@ const getWorker = async (req: Request, res: Response, next: NextFunction) => {
 
 const createWorker = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    //const userId = req.tokenData;
     if (Object.keys(req.body).length === 0) {
       res.status(400).send({ message: 'Bad request!' });
     }
 
+    const userId = req.tokenData.id;
+
     const worker = await workerService.createWorker(
       req.body,
       req.params.corporationId,
-      req.params.branchId
+      req.params.branchId,
+      userId
     );
     res.status(200).send(worker);
   } catch (error) {
@@ -46,16 +48,17 @@ const createWorker = async (req: Request, res: Response, next: NextFunction) => 
 
 const updateWorker = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    // const userId = req.tokenData;
     if (Object.keys(req.body).length === 0) {
       res.status(400).send({ message: 'Bad request!' });
     }
 
+    const userId = req.tokenData.id;
     const worker = await workerService.updateWorker(
       req.body,
       req.params.corporationId,
       req.params.branchId,
-      req.params.id
+      req.params.id,
+      userId
     );
     res.status(200).send(worker);
   } catch (error) {
@@ -65,11 +68,12 @@ const updateWorker = async (req: Request, res: Response, next: NextFunction) => 
 
 const deleteWorker = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    // const userId = req.tokenData;
+    const userId = req.tokenData.id;
     const worker = await workerService.deleteWorker(
       req.params.corporationId,
       req.params.branchId,
-      req.params.id
+      req.params.id,
+      userId
     );
     res.status(200).send(worker);
   } catch (error) {

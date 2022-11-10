@@ -46,17 +46,22 @@ const createWorker = async (
     position: string;
   },
   corporationId: string,
-  branchId: string
+  branchId: string,
+  userId: string
 ) => {
   if (!data.name || data.surname || data.phoneNumber || data.position) {
     throw new HttpException(400, 'Bad request!');
   }
 
+  const corporation = await prisma.corporation.findUnique({ where: { id: corporationId } });
+
   const branch = await prisma.branch.findFirst({ where: { id: branchId, corporationId } });
 
-  if (!branch) {
+  if (!branch || !corporation) {
     throw new HttpException(404, 'Not found!');
   }
+
+  if (corporation.creatorUserId !== userId) throw new HttpException(401, 'Unauthorized');
 
   const worker = await prisma.worker.create({
     data: {
@@ -75,15 +80,20 @@ const updateWorker = async (
   data: { name: string; surname: string; phoneNumber: string; position: string },
   corporationId: string,
   branchId: string,
-  id: string
+  id: string,
+  userId: string
 ) => {
+  const corporation = await prisma.corporation.findUnique({ where: { id: corporationId } });
+
   const branch = await prisma.branch.findFirst({ where: { id: branchId, corporationId } });
 
   const workerTemp = await prisma.worker.findFirst({ where: { id, branchId } });
 
-  if (!branch || !workerTemp) {
+  if (!branch || !workerTemp || !corporation) {
     throw new HttpException(404, 'Not found!');
   }
+
+  if (corporation.creatorUserId !== userId) throw new HttpException(401, 'Unauthorized');
 
   const worker = await prisma.worker.update({
     where: { id: id },
@@ -98,14 +108,23 @@ const updateWorker = async (
   return worker;
 };
 
-const deleteWorker = async (corporationId: string, branchId: string, id: string) => {
+const deleteWorker = async (
+  corporationId: string,
+  branchId: string,
+  id: string,
+  userId: string
+) => {
+  const corporation = await prisma.corporation.findUnique({ where: { id: corporationId } });
+
   const branch = await prisma.branch.findFirst({ where: { id: branchId, corporationId } });
 
   const workerTemp = await prisma.worker.findFirst({ where: { id, branchId } });
 
-  if (!branch || !workerTemp) {
+  if (!branch || !workerTemp || !corporation) {
     throw new HttpException(404, 'Not found!');
   }
+
+  if (corporation.creatorUserId !== userId) throw new HttpException(401, 'Unauthorized');
 
   const worker = await prisma.worker.delete({
     where: { id: id },
