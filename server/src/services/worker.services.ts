@@ -61,7 +61,7 @@ const createWorker = async (
     throw new HttpException(404, 'Not found!');
   }
 
-  if (corporation.creatorUserId !== userId) throw new HttpException(401, 'Unauthorized');
+  if (corporation.creatorUserId !== userId) throw new HttpException(403, 'Forbidden');
 
   const worker = await prisma.worker.create({
     data: {
@@ -93,7 +93,7 @@ const updateWorker = async (
     throw new HttpException(404, 'Not found!');
   }
 
-  if (corporation.creatorUserId !== userId) throw new HttpException(401, 'Unauthorized');
+  if (corporation.creatorUserId !== userId) throw new HttpException(403, 'Forbidden');
 
   const worker = await prisma.worker.update({
     where: { id: id },
@@ -124,7 +124,7 @@ const deleteWorker = async (
     throw new HttpException(404, 'Not found!');
   }
 
-  if (corporation.creatorUserId !== userId) throw new HttpException(401, 'Unauthorized');
+  if (corporation.creatorUserId !== userId) throw new HttpException(403, 'Forbidden');
 
   const worker = await prisma.worker.delete({
     where: { id: id },

@@ -43,7 +43,7 @@ const createBranch = async (
 
   if (!corporation) throw new HttpException(404, 'Not found');
 
-  if (corporation.creatorUserId !== userId) throw new HttpException(401, 'Unauthorized');
+  if (corporation.creatorUserId !== userId) throw new HttpException(403, 'Forbidden');
 
   const branch = await prisma.branch.create({
     data: { title: data.title, address: data.address, corporationId: corporationId },
@@ -66,7 +66,7 @@ const updateBranch = async (
     throw new HttpException(404, 'Not found!');
   }
 
-  if (corporation.creatorUserId !== userId) throw new HttpException(401, 'Unauthorized');
+  if (corporation.creatorUserId !== userId) throw new HttpException(403, 'Forbidden');
 
   const branch = await prisma.branch.update({
     where: { id: id },
@@ -84,7 +84,7 @@ const deleteBranch = async (corporationId: string, id: string, userId: string) =
     throw new HttpException(404, 'Not found!');
   }
 
-  if (corporation.creatorUserId !== userId) throw new HttpException(401, 'Unauthorized');
+  if (corporation.creatorUserId !== userId) throw new HttpException(403, 'Forbidden');
 
   const branch = await prisma.branch.delete({
     where: { id: id },

@@ -45,7 +45,7 @@ const updateCorporation = async (
 
   if (!userCorporation) throw new HttpException(404, 'Not found');
 
-  if (userCorporation.creatorUserId !== userId) throw new HttpException(401, 'Unauthorized');
+  if (userCorporation.creatorUserId !== userId) throw new HttpException(403, 'Forbidden');
 
   const corporation = await prisma.corporation.update({
     where: { id: id },
@@ -60,7 +60,7 @@ const deleteCorporation = async (id: string, userId: string) => {
 
   if (!userCorporation) throw new HttpException(404, 'Not found');
 
-  if (userCorporation.creatorUserId !== userId) throw new HttpException(401, 'Unauthorized');
+  if (userCorporation.creatorUserId !== userId) throw new HttpException(403, 'Forbidden');
 
   const corporation = await prisma.corporation.delete({
     where: { id: id },
