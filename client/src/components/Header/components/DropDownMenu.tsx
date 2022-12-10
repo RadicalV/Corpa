@@ -14,18 +14,13 @@ import { toggleTheme } from "../../../slices/themeSlice";
 
 interface DropDownMenuProps {
   mode: string;
-  isXs: Boolean;
 }
 
 const DropDownMenu = (props: DropDownMenuProps) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const open = Boolean(anchorEl);
-  const { mode, isXs } = props;
-
-  const ceo = false;
-  const admin = true;
+  const { mode } = props;
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -61,33 +56,6 @@ const DropDownMenu = (props: DropDownMenuProps) => {
           <Typography>RadicalV</Typography>
         </MenuItem>
         <Divider />
-        {ceo && (
-          <MenuItem
-            onClick={() => {
-              navigate("user/corporations");
-            }}
-          >
-            <Typography color="inherit">My corporations</Typography>
-          </MenuItem>
-        )}
-        {isXs && (
-          <MenuItem
-            onClick={() => {
-              navigate("/corporations");
-            }}
-          >
-            <Typography color="inherit">Corporations</Typography>
-          </MenuItem>
-        )}
-        {admin && (
-          <MenuItem
-            onClick={() => {
-              navigate("/dashboard");
-            }}
-          >
-            <Typography color="inherit">Admin dashboard</Typography>
-          </MenuItem>
-        )}
         <MenuItem
           onClick={() => {
             dispatch(toggleTheme());

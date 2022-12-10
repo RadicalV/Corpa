@@ -26,6 +26,8 @@ const Header = () => {
   const isXs = useMediaQuery(theme.breakpoints.down("sm"));
 
   const auth = true;
+  const ceo = true;
+  const admin = false;
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -56,9 +58,30 @@ const Header = () => {
               <Link
                 href="/corporations"
                 color="inherit"
+                variant="h6"
                 sx={{ textDecoration: "none" }}
               >
                 Corporations
+              </Link>
+            )}
+            {admin && (
+              <Link
+                href="/corporations"
+                color="inherit"
+                variant="h6"
+                sx={{ textDecoration: "none" }}
+              >
+                Admin Dashboard
+              </Link>
+            )}
+            {ceo && (
+              <Link
+                href="/corporations"
+                color="inherit"
+                variant="h6"
+                sx={{ textDecoration: "none" }}
+              >
+                My Corporations
               </Link>
             )}
           </Box>
@@ -91,7 +114,7 @@ const Header = () => {
           {auth && isXs && (
             <HamburgerButton onClick={() => setOpen((prev) => !prev)} />
           )}
-          {auth && !isXs && <DropDownMenu mode={mode} isXs={isXs} />}
+          {auth && !isXs && <DropDownMenu mode={mode} />}
         </Toolbar>
       </AppBar>
       {open && isXs && (
