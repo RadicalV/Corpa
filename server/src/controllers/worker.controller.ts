@@ -38,7 +38,8 @@ const createWorker = async (req: Request, res: Response, next: NextFunction) => 
       req.body,
       req.params.corporationId,
       req.params.branchId,
-      userId
+      userId,
+      req.tokenData.role
     );
     res.status(200).send(worker);
   } catch (error) {
@@ -58,7 +59,8 @@ const updateWorker = async (req: Request, res: Response, next: NextFunction) => 
       req.params.corporationId,
       req.params.branchId,
       req.params.id,
-      userId
+      userId,
+      req.tokenData.role
     );
     res.status(200).send(worker);
   } catch (error) {
@@ -73,7 +75,8 @@ const deleteWorker = async (req: Request, res: Response, next: NextFunction) => 
       req.params.corporationId,
       req.params.branchId,
       req.params.id,
-      userId
+      userId,
+      req.tokenData.role
     );
     res.status(200).send(worker);
   } catch (error) {

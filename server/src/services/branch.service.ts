@@ -33,7 +33,8 @@ const getBranch = async (corporationId: string, id: string) => {
 const createBranch = async (
   data: { title: string; address: string },
   corporationId: string,
-  userId: string
+  userId: string,
+  role: string
 ) => {
   if (!data.title || !data.address) {
     throw new HttpException(400, 'Bad request!');
@@ -43,7 +44,8 @@ const createBranch = async (
 
   if (!corporation) throw new HttpException(404, 'Not found');
 
-  if (corporation.creatorUserId !== userId) throw new HttpException(403, 'Forbidden');
+  if (corporation.creatorUserId !== userId && role !== 'ADMIN')
+    throw new HttpException(403, 'Forbidden');
 
   const branch = await prisma.branch.create({
     data: { title: data.title, address: data.address, corporationId: corporationId },
@@ -56,7 +58,8 @@ const updateBranch = async (
   data: { title: string; address: string },
   corporationId: string,
   id: string,
-  userId: string
+  userId: string,
+  role: string
 ) => {
   const corporation = await prisma.corporation.findUnique({ where: { id: corporationId } });
 
@@ -66,7 +69,8 @@ const updateBranch = async (
     throw new HttpException(404, 'Not found!');
   }
 
-  if (corporation.creatorUserId !== userId) throw new HttpException(403, 'Forbidden');
+  if (corporation.creatorUserId !== userId && role !== 'ADMIN')
+    throw new HttpException(403, 'Forbidden');
 
   const branch = await prisma.branch.update({
     where: { id: id },
@@ -76,7 +80,7 @@ const updateBranch = async (
   return branch;
 };
 
-const deleteBranch = async (corporationId: string, id: string, userId: string) => {
+const deleteBranch = async (corporationId: string, id: string, userId: string, role: string) => {
   const corporation = await prisma.corporation.findUnique({ where: { id: corporationId } });
   const tempBranch = await prisma.branch.findFirst({ where: { id, corporationId } });
 
@@ -84,7 +88,8 @@ const deleteBranch = async (corporationId: string, id: string, userId: string) =
     throw new HttpException(404, 'Not found!');
   }
 
-  if (corporation.creatorUserId !== userId) throw new HttpException(403, 'Forbidden');
+  if (corporation.creatorUserId !== userId && role !== 'ADMIN')
+    throw new HttpException(403, 'Forbidden');
 
   const branch = await prisma.branch.delete({
     where: { id: id },

@@ -21,8 +21,8 @@ const MobileMenu = (props: MobileMenuProps) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const ceo = false;
-  const admin = true;
+  const ceo = true;
+  const admin = false;
 
   return (
     <List sx={{ height: "100vh" }}>

@@ -64,7 +64,7 @@ const Header = () => {
                 Corporations
               </Link>
             )}
-            {admin && (
+            {admin && !isXs && (
               <Link
                 href="/dashboard"
                 color="inherit"
@@ -74,7 +74,7 @@ const Header = () => {
                 Admin Dashboard
               </Link>
             )}
-            {ceo && (
+            {ceo && !isXs && (
               <Link
                 href="/user/corporations"
                 color="inherit"

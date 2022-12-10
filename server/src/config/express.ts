@@ -6,6 +6,7 @@ import errorMiddleware from '../middlewares/errorMiddleware';
 import { authRouter } from '../routes/auth.routes';
 import { branchRouter } from '../routes/branch.routes';
 import { corporationRouter } from '../routes/corporation.routes';
+import { userRouter } from '../routes/user.routes';
 import { workerRouter } from '../routes/worker.routes';
 
 const expressConfig = () => {
@@ -20,6 +21,7 @@ const expressConfig = () => {
   app.use('/api', corporationRouter);
   app.use('/api', branchRouter);
   app.use('/api', workerRouter);
+  app.use('/api', userRouter);
 
   app.use((req, res) => {
     res.status(400).send({ message: 'Bad request!' });

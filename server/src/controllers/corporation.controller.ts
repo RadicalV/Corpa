@@ -40,7 +40,12 @@ const updateCorporation = async (req: Request, res: Response, next: NextFunction
     }
 
     const userId = req.tokenData.id;
-    const corporation = await corporationService.updateCorporation(req.body, req.params.id, userId);
+    const corporation = await corporationService.updateCorporation(
+      req.body,
+      req.params.id,
+      userId,
+      req.tokenData.role
+    );
     res.status(200).send(corporation);
   } catch (error) {
     next(error);
@@ -50,7 +55,11 @@ const updateCorporation = async (req: Request, res: Response, next: NextFunction
 const deleteCorporation = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const userId = req.tokenData.id;
-    const corporation = await corporationService.deleteCorporation(req.params.id, userId);
+    const corporation = await corporationService.deleteCorporation(
+      req.params.id,
+      userId,
+      req.tokenData.role
+    );
     res.status(200).send(corporation);
   } catch (error) {
     next(error);

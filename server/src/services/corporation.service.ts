@@ -39,13 +39,15 @@ const createCorporation = async (data: { name: string; description: string }, id
 const updateCorporation = async (
   data: { name: string; description: string },
   id: string,
-  userId: string
+  userId: string,
+  role: string
 ) => {
   const userCorporation = await prisma.corporation.findUnique({ where: { id: id } });
 
   if (!userCorporation) throw new HttpException(404, 'Not found');
 
-  if (userCorporation.creatorUserId !== userId) throw new HttpException(403, 'Forbidden');
+  if (userCorporation.creatorUserId !== userId && role !== 'ADMIN')
+    throw new HttpException(403, 'Forbidden');
 
   const corporation = await prisma.corporation.update({
     where: { id: id },
@@ -55,12 +57,13 @@ const updateCorporation = async (
   return corporation;
 };
 
-const deleteCorporation = async (id: string, userId: string) => {
+const deleteCorporation = async (id: string, userId: string, role: string) => {
   const userCorporation = await prisma.corporation.findUnique({ where: { id: id } });
 
   if (!userCorporation) throw new HttpException(404, 'Not found');
 
-  if (userCorporation.creatorUserId !== userId) throw new HttpException(403, 'Forbidden');
+  if (userCorporation.creatorUserId !== userId && role !== 'ADMIN')
+    throw new HttpException(403, 'Forbidden');
 
   const corporation = await prisma.corporation.delete({
     where: { id: id },

@@ -28,7 +28,12 @@ const createBranch = async (req: Request, res: Response, next: NextFunction) => 
     }
 
     const userId = req.tokenData.id;
-    const branch = await branchService.createBranch(req.body, req.params.corporationId, userId);
+    const branch = await branchService.createBranch(
+      req.body,
+      req.params.corporationId,
+      userId,
+      req.tokenData.role
+    );
     res.status(201).send(branch);
   } catch (error) {
     next(error);
@@ -47,7 +52,8 @@ const updateBranch = async (req: Request, res: Response, next: NextFunction) => 
       req.body,
       req.params.corporationId,
       req.params.id,
-      userId
+      userId,
+      req.tokenData.role
     );
     res.status(200).send(branch);
   } catch (error) {
@@ -61,7 +67,8 @@ const deleteBranch = async (req: Request, res: Response, next: NextFunction) => 
     const branch = await branchService.deleteBranch(
       req.params.corporationId,
       req.params.id,
-      userId
+      userId,
+      req.tokenData.role
     );
     res.status(200).send(branch);
   } catch (error) {

@@ -47,7 +47,8 @@ const createWorker = async (
   },
   corporationId: string,
   branchId: string,
-  userId: string
+  userId: string,
+  role: string
 ) => {
   if (!data.name || data.surname || data.phoneNumber || data.position) {
     throw new HttpException(400, 'Bad request!');
@@ -61,7 +62,8 @@ const createWorker = async (
     throw new HttpException(404, 'Not found!');
   }
 
-  if (corporation.creatorUserId !== userId) throw new HttpException(403, 'Forbidden');
+  if (corporation.creatorUserId !== userId && role !== 'ADMIN')
+    throw new HttpException(403, 'Forbidden');
 
   const worker = await prisma.worker.create({
     data: {
@@ -81,7 +83,8 @@ const updateWorker = async (
   corporationId: string,
   branchId: string,
   id: string,
-  userId: string
+  userId: string,
+  role: string
 ) => {
   const corporation = await prisma.corporation.findUnique({ where: { id: corporationId } });
 
@@ -93,7 +96,8 @@ const updateWorker = async (
     throw new HttpException(404, 'Not found!');
   }
 
-  if (corporation.creatorUserId !== userId) throw new HttpException(403, 'Forbidden');
+  if (corporation.creatorUserId !== userId && role !== 'ADMIN')
+    throw new HttpException(403, 'Forbidden');
 
   const worker = await prisma.worker.update({
     where: { id: id },
@@ -112,7 +116,8 @@ const deleteWorker = async (
   corporationId: string,
   branchId: string,
   id: string,
-  userId: string
+  userId: string,
+  role: string
 ) => {
   const corporation = await prisma.corporation.findUnique({ where: { id: corporationId } });
 
@@ -124,7 +129,8 @@ const deleteWorker = async (
     throw new HttpException(404, 'Not found!');
   }
 
-  if (corporation.creatorUserId !== userId) throw new HttpException(403, 'Forbidden');
+  if (corporation.creatorUserId !== userId && role !== 'ADMIN')
+    throw new HttpException(403, 'Forbidden');
 
   const worker = await prisma.worker.delete({
     where: { id: id },
