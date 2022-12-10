@@ -66,7 +66,7 @@ const Header = () => {
             )}
             {admin && (
               <Link
-                href="/corporations"
+                href="/dashboard"
                 color="inherit"
                 variant="h6"
                 sx={{ textDecoration: "none" }}
@@ -76,7 +76,7 @@ const Header = () => {
             )}
             {ceo && (
               <Link
-                href="/corporations"
+                href="/user/corporations"
                 color="inherit"
                 variant="h6"
                 sx={{ textDecoration: "none" }}
