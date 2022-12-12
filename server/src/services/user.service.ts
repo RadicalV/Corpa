@@ -18,7 +18,22 @@ const getUsers = async (role: string) => {
   return users;
 };
 
-const getUser = async (id: string) => {
+const getUser = async (id: string, role: string) => {
+  if (role !== 'ADMIN') throw new HttpException(403, 'Forbidden');
+
+  const user = await prisma.user.findFirst({
+    where: { id },
+    select: { id: true, email: true, username: true, role: true, createdCorporations: true },
+  });
+
+  if (!user) {
+    throw new HttpException(404, 'Not found!');
+  }
+
+  return user;
+};
+
+const getUserData = async (id: string) => {
   const user = await prisma.user.findFirst({
     where: { id },
     select: { id: true, email: true, username: true, role: true, createdCorporations: true },
@@ -59,6 +74,7 @@ const getUserCorporations = async (id: string) => {
 export const userService = {
   getUsers,
   getUser,
+  getUserData,
   updateUser,
   deleteUser,
   getUserCorporations,

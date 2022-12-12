@@ -9,11 +9,15 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { logout } from "../../../slices/authSlice";
 import { toggleTheme } from "../../../slices/themeSlice";
+import { selectUser } from "../../../slices/userSlice";
+import { useAppSelector } from "../../../store";
+import { User } from "../../../types";
 
 interface DropDownMenuProps {
   mode: string;
+  user: User;
 }
 
 const DropDownMenu = (props: DropDownMenuProps) => {
@@ -21,6 +25,7 @@ const DropDownMenu = (props: DropDownMenuProps) => {
   const dispatch = useDispatch();
   const open = Boolean(anchorEl);
   const { mode } = props;
+  const username = useAppSelector(selectUser).username;
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -53,7 +58,7 @@ const DropDownMenu = (props: DropDownMenuProps) => {
           }}
           disabled
         >
-          <Typography>RadicalV</Typography>
+          <Typography>{username}</Typography>
         </MenuItem>
         <Divider />
         <MenuItem
@@ -67,7 +72,11 @@ const DropDownMenu = (props: DropDownMenuProps) => {
             {mode.charAt(0).toUpperCase() + mode.slice(1)} Mode
           </Typography>
         </MenuItem>
-        <MenuItem>
+        <MenuItem
+          onClick={() => {
+            dispatch(logout());
+          }}
+        >
           <Typography color="inherit">Logout</Typography>
         </MenuItem>
       </Menu>

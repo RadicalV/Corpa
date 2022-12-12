@@ -10,7 +10,15 @@ export const getTheme = (mode: PaletteMode) => ({
           primary: {
             main: "#ffffff",
           },
+          secondary: {
+            main: "#000000",
+          },
+          background: {
+            default: "#fafafa",
+            paper: "#ffffff",
+          },
           divider: "#383838",
+          highlight: "#f81ce5",
           text: {
             primary: "#000000",
           },
@@ -20,9 +28,12 @@ export const getTheme = (mode: PaletteMode) => ({
           primary: {
             main: "#000000",
           },
+          secondary: {
+            main: "#ffffff",
+          },
           divider: "#808080",
+          highlight: "#79ffe1",
           background: {
-            default: "#272727",
             paper: "#000000",
           },
           text: {
@@ -36,6 +47,29 @@ export const getTheme = (mode: PaletteMode) => ({
         root: {
           "&.Mui-disabled": {
             opacity: "1",
+          },
+        },
+      },
+    },
+    MuiInputBase: {
+      styleOverrides: {
+        input: {
+          "&::after": {
+            borderColor: "#000000",
+          },
+        },
+      },
+    },
+    MuiGrid: {
+      styleOverrides: {
+        root: {
+          "&.MuiGrid-item": {
+            display: "flex",
+            justifyContent: "center",
+          },
+          "&.MuiGrid-container": {
+            m: 0,
+            width: "1200px",
           },
         },
       },

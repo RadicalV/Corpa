@@ -8,6 +8,7 @@ const getCorporations = async () => {
       name: true,
       description: true,
       creatorUser: { select: { id: true, username: true } },
+      creatorUserId: true,
     },
   });
 

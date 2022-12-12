@@ -3,8 +3,8 @@ import { Box, Typography } from "@mui/material";
 const Landing = () => {
   return (
     <>
-      <Box>
-        <Typography>This will be a landing page</Typography>
+      <Box sx={{ display: "flex", flexDirection: "row" }}>
+        <Typography>WHAT AM I DOING</Typography>
       </Box>
     </>
   );

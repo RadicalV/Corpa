@@ -16,18 +16,22 @@ import DropDownMenu from "./components/DropDownMenu";
 import HamburgerButton from "./components/HamburgerButton";
 import { useState } from "react";
 import MobileMenu from "./components/MobileMenu";
+import { useNavigate } from "react-router-dom";
+import { selectUser } from "../../slices/userSlice";
+import LoginModal from "../authModals/LoginModal";
+import NiceModal from "@ebay/nice-modal-react";
+import RegisterModal from "../authModals/RegisterModal";
 
 const Header = () => {
   const [open, setOpen] = useState(false);
   const mode = useAppSelector(selectTheme).mode;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const theme = useTheme();
   const isXs = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const auth = true;
-  const ceo = true;
-  const admin = false;
+  const user = useAppSelector(selectUser);
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -43,7 +47,7 @@ const Header = () => {
             sx={{
               display: "flex",
               alignItems: "center",
-              gap: 5,
+              gap: 1,
             }}
           >
             <Link
@@ -54,38 +58,54 @@ const Header = () => {
             >
               Corpa
             </Link>
-            {auth && !isXs && (
-              <Link
-                href="/corporations"
-                color="inherit"
-                variant="h6"
-                sx={{ textDecoration: "none" }}
-              >
-                Corporations
-              </Link>
-            )}
-            {admin && !isXs && (
-              <Link
-                href="/dashboard"
-                color="inherit"
-                variant="h6"
-                sx={{ textDecoration: "none" }}
-              >
-                Admin Dashboard
-              </Link>
-            )}
-            {ceo && !isXs && (
-              <Link
-                href="/user/corporations"
-                color="inherit"
-                variant="h6"
-                sx={{ textDecoration: "none" }}
-              >
-                My Corporations
-              </Link>
-            )}
           </Box>
-          {!auth && (
+          {user.id && !isXs ? (
+            <>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "right",
+                  alignItems: "center",
+                  gap: 1,
+                  flexGrow: 1,
+                }}
+              >
+                <Button
+                  onClick={() => {
+                    navigate("/corporations");
+                  }}
+                  color="inherit"
+                >
+                  Corporations
+                </Button>
+                {user.role === "ADMIN" && (
+                  <Button
+                    onClick={() => {
+                      navigate("/dashboard");
+                    }}
+                    color="inherit"
+                  >
+                    Admin Dashboard
+                  </Button>
+                )}
+                {user.role === "CEO" && (
+                  <Button
+                    onClick={() => {
+                      navigate("/user/corporations");
+                    }}
+                    color="inherit"
+                  >
+                    My Corporations
+                  </Button>
+                )}
+              </Box>
+              <DropDownMenu mode={mode} user={user} />
+            </>
+          ) : user.id && isXs ? (
+            <HamburgerButton onClick={() => setOpen((prev) => !prev)} />
+          ) : isXs ? (
+            <HamburgerButton onClick={() => setOpen((prev) => !prev)} />
+          ) : (
             <Box
               sx={{
                 display: "flex",
@@ -95,10 +115,22 @@ const Header = () => {
                 flexGrow: 1,
               }}
             >
-              <Button color="inherit" sx={{ borderRadius: 2 }}>
+              <Button
+                color="inherit"
+                sx={{ borderRadius: 2 }}
+                onClick={() => {
+                  NiceModal.show(LoginModal);
+                }}
+              >
                 Login
               </Button>
-              <Button color="inherit" sx={{ borderRadius: 2 }}>
+              <Button
+                color="inherit"
+                sx={{ borderRadius: 2 }}
+                onClick={() => {
+                  NiceModal.show(RegisterModal);
+                }}
+              >
                 Register
               </Button>
               <IconButton
@@ -111,14 +143,10 @@ const Header = () => {
               </IconButton>
             </Box>
           )}
-          {auth && isXs && (
-            <HamburgerButton onClick={() => setOpen((prev) => !prev)} />
-          )}
-          {auth && !isXs && <DropDownMenu mode={mode} />}
         </Toolbar>
       </AppBar>
       {open && isXs && (
-        <MobileMenu hidePanel={() => setOpen(false)} mode={mode} open={open} />
+        <MobileMenu hidePanel={() => setOpen(false)} mode={mode} user={user} />
       )}
     </Box>
   );

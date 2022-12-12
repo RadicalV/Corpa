@@ -12,7 +12,16 @@ const getUsers = async (req: Request, res: Response, next: NextFunction) => {
 
 const getUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const user = await userService.getUser(req.tokenData.id);
+    const user = await userService.getUser(req.params.id, req.tokenData.role);
+    res.status(200).send(user);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const getUserData = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const user = await userService.getUserData(req.tokenData.id);
     res.status(200).send(user);
   } catch (error) {
     next(error);
@@ -25,9 +34,7 @@ const updateUser = async (req: Request, res: Response, next: NextFunction) => {
       res.status(400).send({ message: 'Bad request!' });
     }
 
-    const userId = req.tokenData.id;
-
-    const user = await userService.updateUser(req.body, userId, req.tokenData.role);
+    const user = await userService.updateUser(req.body, req.params.id, req.tokenData.role);
     res.status(200).send(user);
   } catch (error) {
     next(error);
@@ -36,8 +43,7 @@ const updateUser = async (req: Request, res: Response, next: NextFunction) => {
 
 const deleteUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const userId = req.tokenData.id;
-    const user = await userService.deleteUser(userId, req.tokenData.role);
+    const user = await userService.deleteUser(req.params.id, req.tokenData.role);
     res.status(200).send(user);
   } catch (error) {
     next(error);
@@ -56,6 +62,7 @@ const getUserCorporations = async (req: Request, res: Response, next: NextFuncti
 export const userController = {
   getUsers,
   getUser,
+  getUserData,
   updateUser,
   deleteUser,
   getUserCorporations,

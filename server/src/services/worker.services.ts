@@ -50,7 +50,7 @@ const createWorker = async (
   userId: string,
   role: string
 ) => {
-  if (!data.name || data.surname || data.phoneNumber || data.position) {
+  if (!data.name || !data.surname || !data.phoneNumber || !data.position) {
     throw new HttpException(400, 'Bad request!');
   }
 

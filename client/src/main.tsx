@@ -5,21 +5,22 @@ import { css, Global } from "@emotion/react";
 import App from "./App";
 import { Provider } from "react-redux";
 import store from "./store";
+import axios from "axios";
 
-// axios.interceptors.request.use(
-//     (config: any) => {
-//       const {
-//         auth: { token },
-//       } = store.getState();
+axios.interceptors.request.use(
+  (config: any) => {
+    const {
+      auth: { accessToken },
+    } = store.getState();
 
-//       if (token) {
-//         config.headers.Authorization = `Bearer ${token}`;
-//       }
+    if (accessToken) {
+      config.headers.Authorization = `Bearer ${accessToken}`;
+    }
 
-//       return config;
-//     },
-//     (err) => Promise.reject(err)
-//   );
+    return config;
+  },
+  (err) => Promise.reject(err)
+);
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
