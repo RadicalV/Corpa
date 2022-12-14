@@ -83,7 +83,7 @@ const DropDownMenu = (props: DropDownMenuProps) => {
       <Avatar
         sx={{ mr: 2, cursor: "pointer" }}
         alt="RadicalV"
-        src={`https://avatars.dicebear.com/api/bottts/RadicalV.svg`}
+        src={`https://avatars.dicebear.com/api/bottts/${username}.svg`}
         onClick={handleClick}
       ></Avatar>
     </Box>
