@@ -41,9 +41,8 @@ const CorporationCard = (props: Props) => {
               color="secondary"
               size="small"
               onClick={() => {
-                navigate(`/branches`, {
+                navigate(`/corporations/${id}/branches`, {
                   state: {
-                    corporationId: id,
                     creatorUserId: creatorId,
                     name: name,
                   },

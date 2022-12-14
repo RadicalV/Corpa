@@ -53,15 +53,16 @@ const BranchCard = (props: Props) => {
               color="secondary"
               size="small"
               onClick={() => {
-                navigate(`/workers`, {
-                  state: {
-                    name: corporationName,
-                    title: title,
-                    corporationId: corporationId,
-                    branchId: branchId,
-                    creatorId: creatorId,
-                  },
-                });
+                navigate(
+                  `/corporations/${corporationId}/branches/${branchId}/workers`,
+                  {
+                    state: {
+                      name: corporationName,
+                      title: title,
+                      creatorId: creatorId,
+                    },
+                  }
+                );
               }}
             >
               View workers

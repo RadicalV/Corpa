@@ -91,7 +91,7 @@ const Header = () => {
                 {user.role === "CEO" && (
                   <Button
                     onClick={() => {
-                      navigate("/user/corporations");
+                      navigate(`/user/${user.id}/corporations`);
                     }}
                     color="inherit"
                   >

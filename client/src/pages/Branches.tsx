@@ -8,7 +8,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import branchApi from "../api/branchApi";
 import { selectUser } from "../slices/userSlice";
 import { useAppSelector } from "../store";
@@ -20,7 +20,7 @@ import AddBranch from "../components/branch modals/AddBranch";
 
 const Branches = () => {
   const location = useLocation();
-  const corporationId = location.state.corporationId;
+  const { corporationId } = useParams();
   const creatorId = location.state.creatorUserId;
   const name = location.state.name;
 
@@ -32,7 +32,7 @@ const Branches = () => {
   const user = useAppSelector(selectUser);
 
   const fetchBranches = async () => {
-    const branchData = (await branchApi.getAllBranches(corporationId)).data;
+    const branchData = (await branchApi.getAllBranches(corporationId!)).data;
     setBranches(branchData);
   };
 
@@ -85,7 +85,7 @@ const Branches = () => {
                 title={branch.title}
                 corporationName={name}
                 address={branch.address}
-                corporationId={corporationId}
+                corporationId={corporationId!}
                 creatorId={creatorId}
                 branchId={branch.id}
                 setRefetch={() => setRefetch(!refetch)}

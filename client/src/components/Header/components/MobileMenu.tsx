@@ -44,7 +44,7 @@ const MobileMenu = (props: MobileMenuProps) => {
               <ListItemButton
                 onClick={() => {
                   hidePanel();
-                  navigate("user/corporations");
+                  navigate(`user/${user.id}/corporations`);
                 }}
               >
                 <Typography color="inherit">My corporations</Typography>

@@ -8,7 +8,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { selectUser } from "../slices/userSlice";
 import { useAppSelector } from "../store";
 import NiceModal from "@ebay/nice-modal-react";
@@ -20,9 +20,8 @@ import AddWorker from "../components/worker modals/AddWorker";
 
 const Workers = () => {
   const location = useLocation();
-  const corporationId = location.state.corporationId;
+  const { corporationId, branchId } = useParams();
   const creatorId = location.state.creatorId;
-  const branchId = location.state.branchId;
   const name = location.state.name;
   const title = location.state.title;
 
@@ -34,7 +33,7 @@ const Workers = () => {
   const user = useAppSelector(selectUser);
 
   const fetchWorkers = async () => {
-    const workerData = (await workerApi.getWorkers(corporationId, branchId))
+    const workerData = (await workerApi.getWorkers(corporationId!, branchId!))
       .data;
     setWorkers(workerData);
   };
@@ -93,9 +92,9 @@ const Workers = () => {
                 surname={worker.surname}
                 phoneNumber={worker.phoneNumber}
                 position={worker.position}
-                corporationId={corporationId}
+                corporationId={corporationId!}
                 creatorId={creatorId}
-                branchId={branchId}
+                branchId={branchId!}
                 workerId={worker.id}
                 setRefetch={() => setRefetch(!refetch)}
               />
