@@ -96,8 +96,8 @@ const WorkerCard = (props: Props) => {
                 color="error"
                 onClick={() => {
                   NiceModal.show(DeleteItem, {
-                    itemType: "branch",
-                    children: "workers",
+                    itemType: "worker",
+                    children: "",
                     confirm: () => {
                       workerApi
                         .deleteWorker(corporationId, branchId, workerId)

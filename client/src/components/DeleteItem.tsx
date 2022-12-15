@@ -38,10 +38,14 @@ const DeleteCorporation = NiceModal.create((props: Props) => {
     >
       <DialogTitle>Do you want to delete this {itemType}</DialogTitle>
       <DialogContent>
-        <Typography>
-          If you delete this {itemType}, all associated {children} will be
-          deleted
-        </Typography>
+        {children ? (
+          <Typography>
+            If you delete this {itemType}, all associated {children} will be
+            deleted
+          </Typography>
+        ) : (
+          <Typography>This {itemType} will be permanently deleted!</Typography>
+        )}
       </DialogContent>
       <DialogActions>
         <Button
