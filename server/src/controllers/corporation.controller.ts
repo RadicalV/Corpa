@@ -27,7 +27,7 @@ const createCorporation = async (req: Request, res: Response, next: NextFunction
 
     const userId = req.tokenData.id;
     const corporation = await corporationService.createCorporation(req.body, userId);
-    res.status(200).send(corporation);
+    res.status(201).send(corporation);
   } catch (error) {
     next(error);
   }

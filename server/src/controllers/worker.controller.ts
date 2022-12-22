@@ -41,7 +41,7 @@ const createWorker = async (req: Request, res: Response, next: NextFunction) => 
       userId,
       req.tokenData.role
     );
-    res.status(200).send(worker);
+    res.status(201).send(worker);
   } catch (error) {
     next(error);
   }
