@@ -90,16 +90,7 @@ System components:
 | Body structure | - |
 | Request header |	Authorization `Bearer {token}` |
 | Response structure |	{ <br> &emsp; "id": "...", <br> &emsp; "name": "...", <br> &emsp; "description": "...", <br> &emsp; "creatorUserId": "..." <br> } |
-
 | Response code	| 200 OK |
-| Error codes	| 
-401 – unauthorized user.
-404 – if you can't find a corporation with the given id. |
+| Error codes	| 401 – unauthorized user. <br> 404 – if you can't find a corporation with the given id. |
 | Request example	| localhost/api/corporations/835e695b-5313-452e-b467-e15a216999e9 |
-| Request response example |	
-{
-  "id": "835e695b-5313-452e-b467-e15a216999e9",
-  "name": "ARV auto",
-  "description": "vairavimo mokykla",
-  "creatorUserId": "5307ff19-f910-4c03-b994-ab3a9d1fc305"
-} |
+| Request response example | { <br> &emsp; "id": "835e695b-5313-452e-b467-e15a216999e9", <br> &emsp; "name": "ARV auto", <br> &emsp; "description": "vairavimo mokykla", <br> &emsp; "creatorUserId": "5307ff19-f910-4c03-b994-ab3a9d1fc305" <br> } |
