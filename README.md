@@ -82,9 +82,8 @@ System components:
 ## API specification
 
 ### Corporations
-| | |
+| API method | Get corporation (GET) |
 |----------|------------ |
-| API method	| Get corporation (GET) |
 | Purpose	| Get corporation data |
 | Route	| /api/corporations/{corporationId} |
 | Body structure | - |
@@ -94,3 +93,37 @@ System components:
 | Error codes	| 401 – unauthorized user. <br> 404 – if you can't find a corporation with the given id. |
 | Request example	| localhost/api/corporations/835e695b-5313-452e-b467-e15a216999e9 |
 | Request response example | { <br> &emsp; "id": "835e695b-5313-452e-b467-e15a216999e9", <br> &emsp; "name": "ARV auto", <br> &emsp; "description": "vairavimo mokykla", <br> &emsp; "creatorUserId": "5307ff19-f910-4c03-b994-ab3a9d1fc305" <br> } |
+
+| API method |	Get corporations (GET) |
+|----------|------------ |
+| Purpose |	Get all corporations data |
+| Route | /api/corporations |
+| Body structure | - |
+| Request header | Authorization `Bearer {token}` |
+| Response structure | [ <br> &emsp { <br> &emsp &emsp "id": "...", <br> &emsp &emsp "name": "...", <br> &emsp &emsp "description": "...", <br> &emsp &emsp "creatorUser": { <br> &emsp &emsp &emsp "id": "...", <br> &emsp &emsp &emsp "username": "..." <br> &emsp &emsp }, <br> &emsp &emsp "creatorUserId":"..." <br> &emsp }, ... <br>] |
+| Response code | 200 OK |
+Galimi klaidų kodai	401 – neautorizuotas vartotojas.
+Užklausos pavyzdys	localhost/api/corporations
+Gauto atsakymo pavyzdys	[
+    {
+        "id": "835e695b-5313-452e-b467-e15a216999e9",
+        "name": "ARV auto",
+        "description": "vairavimo mokykla",
+        "creatorUser": {
+            "id": "5307ff19-f910-4c03-b994-ab3a9d1fc305",
+            "username": "Tautvis"
+        },
+        "creatorUserId":"5307ff19-f910-4c03-b994-ab3a9d1fc305"
+    },
+    {
+        "id": "0c66482c-df24-4bee-b698-23099e18062b",
+        "name": "Norfa",
+        "description": "Praktiski zmones renkasi norfa",
+        "creatorUser": {
+            "id": "5c5539ac-67a5-4938-8381-44a0d2aa6124",
+            "username": "Tautvis123"
+        },
+        "creatorUserId":"5c5539ac-67a5-4938-8381-44a0d2aa6124"
+    }
+]
+
