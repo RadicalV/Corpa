@@ -10,13 +10,31 @@ In order to use the platform, the entrepreneur will register with the web applic
 
 ### Functional requirements
 
-A non-registered user of the system will be able to: 1. View the platform homepage; 2. log in (register) to the web application.
+A non-registered user of the system will be able to:
 
-A registered user will be able to: 1. Log out of the application; 2. Login to the platform; 3. View the companies, branches and employees added to the system
+1. View the platform homepage;
+2. log in (register) to the web application.
 
-As an CEO, users will be able to: 1. Log out of the web application; 2. Login to the platform; 3. Create a new company:
-3.1. fill in the company information form
-3.2. Add branches
-3.3. Add employees to the branches 4. View companies added by other CEO users;
+A registered user will be able to:
 
-The administrator will be able to: 1. Change user roles 2. Remove users 3. Remove inappropriate companies, branches, employees
+1. Log out of the application;
+2. Login to the platform;
+3. View the companies, branches and employees added to the system
+
+As an CEO, users will be able to:
+
+1. Log out of the web application;
+2. Login to the platform;
+3. Create a new company:
+
+   - fill in the company information form
+   - Add branches
+   - Add employees to the branches
+
+4. View companies added by other CEO users;
+
+The administrator will be able to:
+
+1. Change user roles
+2. Remove users
+3. Remove inappropriate companies, branches, employees
