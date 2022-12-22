@@ -83,8 +83,8 @@ System components:
 
 ### Corporations
 
-| API method	| Get corporation (GET) |
 |----------|------------ |
+| API method	| Get corporation (GET) |
 | Purpose	| Get corporation data |
 | Route	| /api/corporations/{corporationId} |
 | Body structure | - |
