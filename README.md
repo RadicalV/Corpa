@@ -82,7 +82,7 @@ System components:
 ## API specification
 
 ### Corporations
-
+| | |
 |----------|------------ |
 | API method	| Get corporation (GET) |
 | Purpose	| Get corporation data |
