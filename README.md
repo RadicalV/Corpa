@@ -1,14 +1,14 @@
 # Corpa
 
-1.  Description of the problem to be solved
+## - Description of the problem to be solved
 
-        1.1 Purpose of the system
+### Purpose of the system
 
     The aim of the project is to facilitate the presentation or retrieval of business information.
     The working principle is that the platform itself consists of two parts: a web application to be used by entrepreneurs, users and administrators, and an Application Programming Interface (API).
     In order to use the platform, the entrepreneur will register with the web application and will be able to add the companies he has set up to the system. They will also be able to create a list of the company's branches and add the employees working in these branches. The information of the added companies can be viewed by a normal user of the system. The administrator will be able to change the roles of users, remove companies, branches or employees if they are added incorrectly.
 
-        1.2 Functional requirements
+### Functional requirements
 
         A non-registered user of the system will be able to:
             1.	View the platform homepage;
