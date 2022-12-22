@@ -47,5 +47,5 @@ System components:
 - Back-End - using Node.js.
 - Database - PostgreSQL.
 
-
 ![Diagram](https://user-images.githubusercontent.com/40595871/209195351-d0ebbccb-da85-45e0-9ce4-3abffdc88a80.png)
+<sub>Deployment diagram</sub>
