@@ -27,7 +27,7 @@ As an CEO, users will be able to:
 2. Login to the platform;
 3. Create a new company:
 
-   - fill in the company information form
+   - Fill in the company information form
    - Add branches
    - Add employees to the branches
 
@@ -38,3 +38,11 @@ The administrator will be able to:
 1. Change user roles
 2. Remove users
 3. Remove inappropriate companies, branches, employees
+
+## System architecture
+
+System components:
+
+- Front-End - using React.js;
+- Back-End - using Node.js.
+- Database - PostgreSQL.
