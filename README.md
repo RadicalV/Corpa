@@ -100,7 +100,7 @@ System components:
 | Route | /api/corporations |
 | Body structure | - |
 | Request header | Authorization `Bearer {token}` |
-| Response structure | \[ <br> &emsp { <br> &emsp &emsp "id": "...", <br> &emsp &emsp "name": "...", <br> &emsp &emsp "description": "...", <br> &emsp &emsp "creatorUser": { <br> &emsp &emsp &emsp "id": "...", <br> &emsp &emsp &emsp "username": "..." <br> &emsp &emsp }, <br> &emsp &emsp "creatorUserId":"..." <br> &emsp }, ... <br>\] |
+| Response structure |  <br> &emsp { <br> &emsp &emsp "id": "...", <br> &emsp &emsp "name": "...", <br> &emsp &emsp "description": "...", <br> &emsp &emsp "creatorUser": { <br> &emsp &emsp &emsp "id": "...", <br> &emsp &emsp &emsp "username": "..." <br> &emsp &emsp }, <br> &emsp &emsp "creatorUserId":"..." <br> &emsp }, ... |
 | Response code | 200 OK |
 Galimi klaidų kodai	401 – neautorizuotas vartotojas.
 Užklausos pavyzdys	localhost/api/corporations
