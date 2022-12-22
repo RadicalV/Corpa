@@ -89,7 +89,7 @@ System components:
 | Route	| /api/corporations/{corporationId} |
 | Body structure | - |
 | Request header |	Authorization `Bearer {token}` |
-| Response structure |	{ <br> "id": "...", <br> "name": "...", <br> "description": "...", <br> "creatorUserId": "..." <br> } |
+| Response structure |	{ <br> &emsp; "id": "...", <br> &emsp; "name": "...", <br> &emsp; "description": "...", <br> &emsp; "creatorUserId": "..." <br> } |
 
 | Response code	| 200 OK |
 | Error codes	| 
