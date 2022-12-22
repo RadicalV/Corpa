@@ -69,3 +69,17 @@ System components:
 
 ![chrome_gPAI3L0s0A](https://user-images.githubusercontent.com/40595871/209196835-cd3ca05b-db61-40b8-9017-21065731b2aa.png)
 <sub>Worker list view</sub>
+
+![chrome_BDVxxt2Tvl](https://user-images.githubusercontent.com/40595871/209196977-cc13f5f1-531c-436e-aa85-5dfd0929d3c9.png)
+<sub>Delete modal</sub>
+
+![chrome_q6tSGbXmrO](https://user-images.githubusercontent.com/40595871/209197017-63b1b164-56ff-4df0-9c08-74219baef6e8.png)
+<sub>Edit modal</sub>
+
+![chrome_9KMRIdFtFv](https://user-images.githubusercontent.com/40595871/209197067-f10910a5-fecb-487e-a94f-467045fb3cf7.png)
+<sub>Add modal</sub>
+
+## API specification
+
+### Corporations
+
