@@ -49,3 +49,23 @@ System components:
 
 ![Diagram](https://user-images.githubusercontent.com/40595871/209195351-d0ebbccb-da85-45e0-9ce4-3abffdc88a80.png)
 <sub>Deployment diagram</sub>
+
+## User interface 
+
+![chrome_Jmx8CHCuV2](https://user-images.githubusercontent.com/40595871/209196183-e70da92a-8b29-4d6a-a255-f74b9d7d3d69.png)
+<sub>Main page</sub>
+
+![chrome_ekAT8ISFHW](https://user-images.githubusercontent.com/40595871/209196390-97cdd613-9c1d-49f5-9129-9118abb22cd7.png)
+<sub>Login modal</sub>
+
+![chrome_Q4AcetbWR0](https://user-images.githubusercontent.com/40595871/209196299-669d4aba-5dd7-415c-8608-b39ece46fecc.png)
+<sub>Register modal</sub>
+
+![chrome_3T9Dcif9Iu](https://user-images.githubusercontent.com/40595871/209196541-ff4064cd-51a9-4e07-9592-c4b7bccd73c9.png)
+<sub>Corporation list view</sub>
+
+![chrome_b9JLHEBzWa](https://user-images.githubusercontent.com/40595871/209196665-d9bd55cb-f8c8-4799-8109-701b8afa1e67.png)
+<sub>Branch list view (when the user is the owner of Corporation)</sub>
+
+![chrome_gPAI3L0s0A](https://user-images.githubusercontent.com/40595871/209196835-cd3ca05b-db61-40b8-9017-21065731b2aa.png)
+<sub>Worker list view</sub>
